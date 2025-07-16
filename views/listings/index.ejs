@@ -1,0 +1,174 @@
+<% layout("layouts/boilerplate")%> 
+<body>
+  <style>
+    #filters {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .filter {
+      text-align: center;
+      margin-right: 2rem;
+      margin-top: 2rem;
+      opacity: 0.7;
+    }
+
+    .filter:hover,
+    .filter.active {
+      opacity: 1;
+      cursor: pointer;
+      font-weight: bold;
+      
+    }
+
+    .filter p {
+      font-size: 0.8rem;
+    }
+
+    .listing-title,
+    .listing-price {
+      color: black !important;
+    }
+    .tax-info{
+      display: none;
+    }
+    .tax-toggle{
+      border: 1px solid black;
+      border-radius: 1rem;
+      height: 3.5rem;
+      padding: 1rem;
+      margin-left: 2rem;
+      display: flex;
+      align-items: center;
+    }
+    .btn-outline-danger {
+  border-radius: 25px;
+  padding: 0.4rem 1.2rem;
+  font-size: 0.9rem;
+}
+
+  </style>
+
+  <!-- Filters with data-category -->
+  <div id="filters">
+    <div class="filter active" data-category="All">
+      <div><i class="fa-solid fa-list"></i></div>
+      <p>All</p>
+    </div>
+    <div class="filter" data-category="Trending">
+      <div><i class="fa-solid fa-fire"></i></div>
+      <p>Trending</p>
+    </div>
+    <div class="filter" data-category="Rooms">
+      <div><i class="fa-solid fa-bed"></i></div>
+      <p>Rooms</p>
+    </div>
+    <div class="filter" data-category="Iconic cities">
+      <div><i class="fa-solid fa-mountain-city"></i></div>
+      <p>Iconic cities</p>
+    </div>
+    <div class="filter" data-category="Mountains">
+      <div><i class="fa-solid fa-mountain"></i></div>
+      <p>Mountains</p>
+    </div>
+    <div class="filter" data-category="castles">
+      <div><i class="fa-solid fa-chess-rook"></i></div>
+      <p>Castles</p>
+    </div>
+    <div class="filter" data-category="Amazing Pools">
+      <div><i class="fa-solid fa-person-swimming"></i></div>
+      <p>Amazing Pools</p>
+    </div>
+    <div class="filter" data-category="Camping">
+      <div><i class="fa-solid fa-campground"></i></div>
+      <p>Camping</p>
+    </div>
+    <div class="filter" data-category="Farms">
+      <div><i class="fa-solid fa-cow"></i></div>
+      <p>Farms</p>
+    </div>
+    <div class="filter" data-category="Arctic">
+      <div><i class="fa-solid fa-snowflake"></i></div>
+      <p>Arctic</p>
+    </div>
+    <div class="filter" data-category="Boats">
+      <div><i class="fa-solid fa-sailboat"></i></div>
+      <p>Boats</p>
+    </div>
+        <div class="filter" data-category="Domes">
+      <div><i class="fa-solid fa-igloo"></i></div>
+      <p>Domes</p>
+    </div>
+     
+    <div class="tax-toggle">
+      <div class="form-check-reverse form-switch">
+      <input class="form-check-input" type="checkbox" role="switch" id="switchCheckDefault">
+      <label class="form-check-label" for="switchCheckDefault">Display total after Taxes</label>
+      </div>
+    </div>
+  </div>
+<% if (searchQuery) { %>
+  <div class="mt-3 d-flex justify-content-between align-items-center">
+    <p class="text-muted mb-0">Showing results for "<strong><%= searchQuery %></strong>"</p>
+    <a href="/listings" class="btn btn-outline-danger">All Listings</a>
+  </div>
+<% } %>
+  
+  <!-- Listings Grid -->
+  <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 mt-3">
+    <% for (Listing of allListings) { %>
+      <div class="card col listing-card" data-category="<%= Listing.category %>">
+        <a href="/listings/<%= Listing._id %>" class="listing-link">
+          <img src="<%= Listing.image.url %>" class="card-img-top" alt="listing_image" style="height: 20rem">
+          <div class="card-img-overlay"></div>
+          <div class="card-body">
+            <p class="card-text">
+              <b class="listing-title"><%= Listing.title %></b><br />
+              <span class="listing-price">&#8377;<%= Listing.price.toLocaleString("en-IN") %>/night <i class="tax-info"> &nbsp; &nbsp;+ 18% GST</i></span>
+            </p>
+          </div>
+        </a>
+      </div>
+    <% } %>
+  </div>
+
+
+
+  <!-- JavaScript for Client-Side Filtering -->
+  <script>
+    const filters = document.querySelectorAll('.filter');
+    const listings = document.querySelectorAll('.listing-card');
+
+    filters.forEach(filter => {
+      filter.addEventListener('click', () => {
+        filters.forEach(f => f.classList.remove('active'));
+        filter.classList.add('active');
+
+        const selectedCategory = filter.getAttribute('data-category');
+
+        listings.forEach(card => {
+          const cardCategory = card.getAttribute('data-category');
+          if (selectedCategory === 'All' || cardCategory === selectedCategory) {
+            card.style.display = "block";
+          } else {
+            card.style.display = "none";
+          }
+        });
+      });
+    });
+
+    let taxSwitch = document.getElementById("switchCheckDefault");
+    taxSwitch.addEventListener("click",()=>{
+      let taxInfo = document.getElementsByClassName("tax-info");
+      for(info of taxInfo){
+        if(info.style.display != "inline"){
+          info.style.display="inline";
+        }else{
+          info.style.display="none";
+
+        }
+      }
+    })
+  </script>
+</body>
