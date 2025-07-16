@@ -25,7 +25,7 @@ router
     .delete(isLoggedIn,isOwner,wrapAsync(ListingController.destroyListing));
 
 // create
-router.get("/new",isLoggedIn,ListingController.renderNewForm);
+// router.get("/new",isLoggedIn,ListingController.renderNewForm);
 
 // edit form route
 router.get("/:id/edit",isLoggedIn,isOwner,wrapAsync(ListingController.renderEditForm));
