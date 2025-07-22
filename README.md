@@ -10,7 +10,6 @@ WanderLust is a full-featured travel accommodation listing web application built
 
 - 🏡 Add, Edit, Delete Travel Listings
 - 🔍 Search Functionality for listings
-- 📍 Location-based listings (using MapTiler)
 - 🖼️ Cloudinary Image Upload Support
 - 🧭 Categories: Trending, Rooms, Iconic Cities, Mountains, Castles, Amazing Pools, Camping, Farms, Arctic
 - 🧾 Flash Messages & Authentication (with Passport.js)
